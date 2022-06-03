@@ -9,9 +9,9 @@ public class IntegerUtilsTest {
 
     @Test
     public void notNegative() {
-        assertFalse(IntegerUtils.notNegative(-1));
-        assertTrue(IntegerUtils.notNegative(0));
-        assertTrue(IntegerUtils.notNegative(5));
+        assertFalse(IntegerUtils.isNotNegative(-1));
+        assertTrue(IntegerUtils.isNotNegative(0));
+        assertTrue(IntegerUtils.isNotNegative(5));
     }
 
     @Test
