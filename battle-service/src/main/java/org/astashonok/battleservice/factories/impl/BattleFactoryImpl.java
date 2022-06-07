@@ -1,48 +1,64 @@
 package org.astashonok.battleservice.factories.impl;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.astashonok.battleservice.constants.BattleConstants;
 import org.astashonok.battleservice.entities.Battle;
 import org.astashonok.battleservice.exceptions.BattleCreationFormException;
 import org.astashonok.battleservice.factories.BattleFactory;
 import org.astashonok.battleservice.models.BattleCreationForm;
-import org.astashonok.battleservice.services.AuthUserService;
-import org.astashonok.battleservice.validators.BattleCreationFormValidator;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.astashonok.battleservice.models.BattleStatus;
+import org.astashonok.battleservice.utils.SecurityUtils;
+import org.astashonok.battleservice.utils.ValidationUtils;
+import org.astashonok.battleservice.validators.Validator;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.Arrays;
+import java.util.UUID;
 
 @Component
+@RequiredArgsConstructor
 public class BattleFactoryImpl implements BattleFactory {
 
-    @Autowired
-    private AuthUserService authUserService;
-
-    @Autowired
-    private BattleCreationFormValidator battleCreationFormValidator;
+    private final Validator<BattleCreationForm> validator;
 
     @Override
-    public Battle create(BattleCreationForm form) {
-        List<String> errorMessages = battleCreationFormValidator.validate(form);
+    public Battle create(@NonNull BattleCreationForm form) {
+        ValidationUtils.asserts(form, validator::validate, BattleCreationFormException::new);
 
-        if (!CollectionUtils.isEmpty(errorMessages)) {
-            throw new BattleCreationFormException(errorMessages.toString());
-        }
-
-        return Optional.of(form)
-                .map(f -> new Battle(
-                                authUserService.getCurrentUserId(),
-                                f.getBoardHeight(),
-                                f.getBoardWidth(),
-                                f.getWinningNumberInRow()
-                        )
-                )
-                .orElseGet(this::crateDefault);
+        return createBattle(
+                SecurityUtils.getCurrentUserId(),
+                form.getBoardHeight(),
+                form.getBoardWidth(),
+                form.getWinningNumberInRow()
+        );
     }
 
     @Override
     public Battle crateDefault() {
-        return new Battle(authUserService.getCurrentUserId());
+        return createBattle(
+                SecurityUtils.getCurrentUserId(),
+                BattleConstants.GAME_BOARD_HEIGHT_DEFAULT,
+                BattleConstants.GAME_BOARD_WIDTH_DEFAULT,
+                BattleConstants.WINNING_NUMBER_IN_ROW_DEFAULT
+        );
+    }
+
+    private Battle createBattle(UUID xParticipantId, int boardHeight, int boardWidth, int winningNumberInRow) {
+        Battle battle = new Battle();
+        battle.setXParticipantId(xParticipantId);
+        battle.setBoardHeight(boardHeight);
+        battle.setBoardWidth(boardWidth);
+        battle.setWinningNumberInRow(winningNumberInRow);
+        battle.setRemainingFreeMoveCount(boardHeight * boardWidth);
+        battle.setStatus(BattleStatus.OPENED);
+        battle.setBoard(getInitializedBoard(boardHeight, boardWidth));
+        return battle;
+    }
+
+    private int[][] getInitializedBoard(int boardHeight, int boardWidth) {
+        int[][] board = new int[boardHeight][boardWidth];
+        Arrays.stream(board).forEach(array -> Arrays.fill(array, BattleConstants.GAME_BOARD_EMPTY_FIELD_NUMBER_VALUE));
+        return board;
     }
 }

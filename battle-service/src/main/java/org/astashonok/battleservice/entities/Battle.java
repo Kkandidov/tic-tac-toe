@@ -10,8 +10,8 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "battles")
@@ -22,8 +22,9 @@ import java.util.Objects;
 public class Battle {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Type(type = "org.hibernate.type.PostgresUUIDType")
+    private UUID id;
 
     private int boardHeight;
     private int boardWidth;
@@ -36,27 +37,19 @@ public class Battle {
 
     @Enumerated(EnumType.STRING)
     private BattleStatus status;
-    private Long xParticipantId;
-    private Long oParticipantId;
-    private Long nextMoveParticipantId;
+
+    @Type(type = "org.hibernate.type.PostgresUUIDType")
+    private UUID xParticipantId;
+
+    @Type(type = "org.hibernate.type.PostgresUUIDType")
+    private UUID oParticipantId;
+
+    @Type(type = "org.hibernate.type.PostgresUUIDType")
+    private UUID nextMoveParticipantId;
     private int remainingFreeMoveCount;
 
-    private Long winnerId;
-
-    public Battle(Long xParticipantId) {
-        this(xParticipantId, BattleConstants.GAME_BOARD_HEIGHT_DEFAULT, BattleConstants.GAME_BOARD_WIDTH_DEFAULT,
-                BattleConstants.WINNING_NUMBER_IN_ROW_DEFAULT);
-    }
-
-    public Battle(Long xParticipantId, int boardHeight, int boardWidth, int winningNumberInRow) {
-        this.xParticipantId = xParticipantId;
-        this.boardHeight = boardHeight;
-        this.boardWidth = boardWidth;
-        this.winningNumberInRow = winningNumberInRow;
-        this.remainingFreeMoveCount = boardHeight * boardWidth;
-        this.status = BattleStatus.OPENED;
-        initBoard();
-    }
+    @Type(type = "org.hibernate.type.PostgresUUIDType")
+    private UUID winnerId;
 
     public void decrementRemainingFreeMoveCount() {
         remainingFreeMoveCount--;
@@ -74,16 +67,11 @@ public class Battle {
         return winningNumberInRow * BattleConstants.GAME_BOARD_X_FIELD_NUMBER_VALUE + 1;
     }
 
-    public void setFieldNumberValue(Long userId, int xCoordinate, int yCoordinate) {
+    public void setFieldNumberValue(UUID userId, int xCoordinate, int yCoordinate) {
         if (Objects.equals(userId, xParticipantId)) {
             board[yCoordinate][xCoordinate] = getXNumberValue();
         } else {
             board[yCoordinate][xCoordinate] = getONumberValue();
         }
-    }
-
-    private void initBoard() {
-        board = new int[boardHeight][boardWidth];
-        Arrays.stream(board).forEach(array -> Arrays.fill(array, BattleConstants.GAME_BOARD_EMPTY_FIELD_NUMBER_VALUE));
     }
 }

@@ -1,11 +1,15 @@
 package org.astashonok.battleservice.models;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@Data
+import java.util.UUID;
+
+@Getter
+@RequiredArgsConstructor
 public class MoveForm {
 
-    private final Long battleId;
+    private final UUID battleId;
     private final int xCoordinate;
     private final int yCoordinate;
 }

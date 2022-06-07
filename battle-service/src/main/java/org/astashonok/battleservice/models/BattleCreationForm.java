@@ -1,8 +1,10 @@
 package org.astashonok.battleservice.models;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@Data
+@Getter
+@RequiredArgsConstructor
 public class BattleCreationForm {
 
     private final int boardHeight;

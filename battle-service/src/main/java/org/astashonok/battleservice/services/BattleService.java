@@ -1,21 +1,24 @@
 package org.astashonok.battleservice.services;
 
+import lombok.NonNull;
+import org.astashonok.battleservice.dtos.BattleDto;
 import org.astashonok.battleservice.entities.Battle;
-import org.astashonok.battleservice.models.BattleInfo;
 import org.astashonok.battleservice.models.BattleCreationForm;
+import org.astashonok.battleservice.models.BattleInfo;
 import org.astashonok.battleservice.models.MoveForm;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface BattleService {
 
-    void makeMove(MoveForm moveForm);
+    void makeMove(@NonNull MoveForm moveForm);
 
-    List<Battle> getOpenedBattles();
+    List<BattleDto> getOpenedBattles();
 
-    void join(Long battleId);
+    void join(UUID battleId);
 
-    Battle openBattle(BattleCreationForm form);
+    BattleDto openBattle(@NonNull BattleCreationForm form);
 
-    BattleInfo getBattleInfo(Long battleId);
+    BattleInfo getBattleInfo(UUID battleId);
 }
