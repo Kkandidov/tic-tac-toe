@@ -3,4 +3,5 @@ include 'battle-service'
 include 'statistic-service'
 include 'user-service'
 include 'common'
+include 'amqp-starter'
 
