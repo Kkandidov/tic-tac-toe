@@ -1,7 +1,9 @@
 package org.astashonok.battleservice.components.calculators.impl;
 
-import org.astashonok.battleservice.components.calculators.WinnerCalculator;
+import org.astashonok.battleservice.components.calculators.BattleStateCalculator;
 import org.astashonok.battleservice.entities.Battle;
+import org.astashonok.battleservice.models.BattleState;
+import org.astashonok.battleservice.models.BattleStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -10,23 +12,31 @@ import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 
 @Component
-public class WinnerCalculatorImpl implements WinnerCalculator {
+public class BattleStateCalculatorImpl implements BattleStateCalculator {
 
     @Override
-    public UUID getWinnerId(Battle battle) {
+    public BattleState calculateAndGet(Battle battle) {
+        BattleState battleState = new BattleState();
+
+        UUID winnerId = null;
         int winningNumberInRow = battle.getWinningNumberInRow();
 
         for (int rowNumber = 0; rowNumber < battle.getBoardHeight() - winningNumberInRow + 1; rowNumber++) {
             for (int columnNumber = 0; columnNumber < battle.getBoardWidth() - winningNumberInRow + 1; columnNumber++) {
-                UUID winnerId = getWinnerId(battle, rowNumber, columnNumber);
+                winnerId = getWinnerId(battle, rowNumber, columnNumber);
                 if (winnerId != null) {
-                    return winnerId;
+                    battleState.setWinnerId(winnerId);
                 }
             }
         }
 
-        return null;
+        if (winnerId != null || battle.getRemainingFreeMoveCount() == 0) {
+            battle.setStatus(BattleStatus.FINISHED);
+        }
+
+        return battleState;
     }
+
 
     private UUID getWinnerId(Battle battle, int rowNumber, int columnNumber) {
         UUID winnerId = getWinnerIdByRows(battle, columnNumber, rowNumber);

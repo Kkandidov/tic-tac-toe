@@ -2,7 +2,7 @@ package org.astashonok.battleservice.services.impl;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.astashonok.battleservice.components.calculators.WinnerCalculator;
+import org.astashonok.battleservice.components.calculators.BattleStateCalculator;
 import org.astashonok.battleservice.dtos.BattleDto;
 import org.astashonok.battleservice.entities.Battle;
 import org.astashonok.battleservice.entities.Move;
@@ -11,7 +11,7 @@ import org.astashonok.battleservice.exceptions.MoveException;
 import org.astashonok.battleservice.factories.BattleFactory;
 import org.astashonok.battleservice.mappers.dtos.BattleDtoMapper;
 import org.astashonok.battleservice.models.BattleCreationForm;
-import org.astashonok.battleservice.models.BattleInfo;
+import org.astashonok.battleservice.models.BattleState;
 import org.astashonok.battleservice.models.BattleStatus;
 import org.astashonok.battleservice.models.MoveForm;
 import org.astashonok.battleservice.repositories.BattleRepository;
@@ -46,18 +46,19 @@ public class BattleServiceImpl implements BattleService {
 
     private final Validator<Battle> battleValidator;
 
-    private final WinnerCalculator winnerCalculator;
+    private final BattleStateCalculator battleStateCalculator;
 
     private final BattleDtoMapper battleDtoMapper;
 
     @Override
-    public void makeMove(@NonNull MoveForm moveForm) {
+    public BattleState makeMove(@NonNull MoveForm moveForm) {
         ValidationUtils.asserts(moveForm, moveFormValidator::validate, MoveException::new);
 
-        Optional.of(moveForm.getBattleId())
+        return Optional.of(moveForm.getBattleId())
                 .flatMap(battleRepository::findById)
                 .map(battle -> ValidationUtils.assertAndGet(battle, battleValidator::validate, BattleException::new))
-                .ifPresent(battle -> makeMove(battle, moveForm));
+                .map(battle -> makeMove(battle, moveForm))
+                .orElse(null);
     }
 
     @Override
@@ -79,24 +80,19 @@ public class BattleServiceImpl implements BattleService {
         return battleDtoMapper.toDto(battleRepository.save(battleFactory.create(form)));
     }
 
-    @Override
-    public BattleInfo getBattleInfo(UUID battleId) {
-        return Optional.ofNullable(battleId)
-                .flatMap(battleRepository::findById)
-                .map(battle -> new BattleInfo(battle.getStatus(), battle.getWinnerId()))
-                .orElseThrow(() -> new BattleException(String.format(BATTLE_NOT_EXISTS, battleId)));
-    }
-
-    private void makeMove(Battle battle, MoveForm moveForm) {
+    private BattleState makeMove(Battle battle, MoveForm moveForm) {
         battle.setFieldNumberValue(SecurityUtils.getCurrentUserId(), moveForm.getXCoordinate(), moveForm.getYCoordinate());
         battle.decrementRemainingFreeMoveCount();
         battle.swapNextMoveParticipantId();
-        battle.setWinnerId(winnerCalculator.getWinnerId(battle));
-        if (battle.getWinnerId() != null || battle.getRemainingFreeMoveCount() == 0) {
-            battle.setStatus(BattleStatus.FINISHED);
-        }
+
+        BattleState battleState = battleStateCalculator.calculateAndGet(battle);
+        battle.setWinnerId(battleState.getWinnerId());
+        battle.setStatus(battleState.getStatus());
+
         battleRepository.save(battle);
         saveUserMove(moveForm);
+
+        return battleState;
     }
 
     private void saveUserMove(MoveForm moveForm) {
