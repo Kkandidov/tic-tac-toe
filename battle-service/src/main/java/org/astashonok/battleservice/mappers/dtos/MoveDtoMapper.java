@@ -5,5 +5,5 @@ import org.astashonok.battleservice.entities.Move;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface MoveDtoMapper extends ParameterizedMapper<Move, MoveDto> {
+public interface MoveDtoMapper extends ParameterizedDtoMapper<Move, MoveDto> {
 }
