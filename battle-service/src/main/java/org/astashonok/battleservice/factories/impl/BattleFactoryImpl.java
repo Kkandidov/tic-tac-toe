@@ -4,13 +4,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.astashonok.battleservice.constants.BattleConstants;
 import org.astashonok.battleservice.entities.Battle;
-import org.astashonok.battleservice.exceptions.BattleCreationFormException;
 import org.astashonok.battleservice.factories.BattleFactory;
 import org.astashonok.battleservice.models.BattleCreationForm;
 import org.astashonok.battleservice.models.BattleStatus;
 import org.astashonok.battleservice.utils.SecurityUtils;
-import org.astashonok.battleservice.utils.ValidationUtils;
-import org.astashonok.battleservice.validators.Validator;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -20,12 +17,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BattleFactoryImpl implements BattleFactory {
 
-    private final Validator<BattleCreationForm> validator;
-
     @Override
     public Battle create(@NonNull BattleCreationForm form) {
-        ValidationUtils.asserts(form, validator::validate, BattleCreationFormException::new);
-
         return createBattle(
                 SecurityUtils.getCurrentUserId(),
                 form.getBoardHeight(),

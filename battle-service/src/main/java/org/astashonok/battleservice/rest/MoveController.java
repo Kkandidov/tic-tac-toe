@@ -1,7 +1,6 @@
 package org.astashonok.battleservice.rest;
 
 import org.astashonok.battleservice.dtos.MoveDto;
-import org.astashonok.battleservice.entities.Move;
 import org.astashonok.battleservice.services.MoveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

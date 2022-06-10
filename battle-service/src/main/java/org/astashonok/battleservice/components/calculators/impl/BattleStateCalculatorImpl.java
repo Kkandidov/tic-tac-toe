@@ -1,5 +1,6 @@
 package org.astashonok.battleservice.components.calculators.impl;
 
+import lombok.NonNull;
 import org.astashonok.battleservice.components.calculators.BattleStateCalculator;
 import org.astashonok.battleservice.entities.Battle;
 import org.astashonok.battleservice.models.BattleState;
@@ -15,7 +16,7 @@ import java.util.function.BiPredicate;
 public class BattleStateCalculatorImpl implements BattleStateCalculator {
 
     @Override
-    public BattleState calculateAndGet(Battle battle) {
+    public BattleState calculateAndGet(@NonNull Battle battle) {
         BattleState battleState = new BattleState();
 
         UUID winnerId = null;

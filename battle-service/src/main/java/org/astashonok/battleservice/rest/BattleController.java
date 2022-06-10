@@ -6,6 +6,7 @@ import org.astashonok.battleservice.models.BattleState;
 import org.astashonok.battleservice.models.MoveForm;
 import org.astashonok.battleservice.services.BattleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class BattleController {
     private BattleService battleService;
 
     @PostMapping("/make-move")
-    public BattleState makeMove(@RequestBody MoveForm moveForm) {
+    public BattleState makeMove(@RequestBody @Validated MoveForm moveForm) {
         return battleService.makeMove(moveForm);
     }
 
@@ -29,12 +30,12 @@ public class BattleController {
     }
 
     @PostMapping("/{battleId}/join")
-    public void joinBattle(@PathVariable UUID battleId) {
-        battleService.join(battleId);
+    public BattleDto joinBattle(@PathVariable UUID battleId) {
+        return battleService.join(battleId);
     }
 
     @PostMapping
-    public BattleDto openBattle(@RequestBody BattleCreationForm form) {
+    public BattleDto openBattle(@RequestBody @Validated BattleCreationForm form) {
         return battleService.openBattle(form);
     }
 }

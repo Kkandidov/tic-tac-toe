@@ -7,7 +7,6 @@ import org.astashonok.battleservice.dtos.BattleDto;
 import org.astashonok.battleservice.entities.Battle;
 import org.astashonok.battleservice.entities.Move;
 import org.astashonok.battleservice.exceptions.BattleException;
-import org.astashonok.battleservice.exceptions.MoveException;
 import org.astashonok.battleservice.factories.BattleFactory;
 import org.astashonok.battleservice.mappers.dtos.BattleDtoMapper;
 import org.astashonok.battleservice.models.BattleCreationForm;
@@ -18,8 +17,6 @@ import org.astashonok.battleservice.repositories.BattleRepository;
 import org.astashonok.battleservice.repositories.MoveRepository;
 import org.astashonok.battleservice.services.BattleService;
 import org.astashonok.battleservice.utils.SecurityUtils;
-import org.astashonok.battleservice.utils.ValidationUtils;
-import org.astashonok.battleservice.validators.Validator;
 import org.astashonok.common.utils.CommonUtils;
 import org.springframework.stereotype.Service;
 
@@ -37,28 +34,17 @@ import static org.astashonok.battleservice.constants.ErrorMessage.BATTLE_NOT_EXI
 public class BattleServiceImpl implements BattleService {
 
     private final BattleRepository battleRepository;
-
     private final MoveRepository moveRepository;
-
     private final BattleFactory battleFactory;
-
-    private final Validator<MoveForm> moveFormValidator;
-
-    private final Validator<Battle> battleValidator;
-
     private final BattleStateCalculator battleStateCalculator;
-
     private final BattleDtoMapper battleDtoMapper;
 
     @Override
     public BattleState makeMove(@NonNull MoveForm moveForm) {
-        ValidationUtils.asserts(moveForm, moveFormValidator::validate, MoveException::new);
-
         return Optional.of(moveForm.getBattleId())
                 .flatMap(battleRepository::findById)
-                .map(battle -> ValidationUtils.assertAndGet(battle, battleValidator::validate, BattleException::new))
                 .map(battle -> makeMove(battle, moveForm))
-                .orElse(null);
+                .orElseThrow(() -> new BattleException(String.format(BATTLE_NOT_EXISTS, moveForm.getBattleId())));
     }
 
     @Override
@@ -67,11 +53,12 @@ public class BattleServiceImpl implements BattleService {
     }
 
     @Override
-    public void join(UUID battleId) {
-        Optional.ofNullable(battleId)
+    public BattleDto join(@NonNull UUID battleId) {
+        return Optional.of(battleId)
                 .flatMap(battleRepository::findById)
                 .map(this::joinBattleAndGet)
                 .map(battleRepository::save)
+                .map(battleDtoMapper::toDto)
                 .orElseThrow(() -> new BattleException(String.format(BATTLE_NOT_EXISTS, battleId)));
     }
 

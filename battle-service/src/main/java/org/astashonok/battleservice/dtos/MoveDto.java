@@ -1,6 +1,5 @@
 package org.astashonok.battleservice.dtos;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

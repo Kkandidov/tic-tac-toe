@@ -15,7 +15,7 @@ public interface BattleService {
 
     List<BattleDto> getOpenedBattles();
 
-    void join(UUID battleId);
+    BattleDto join(@NonNull UUID battleId);
 
     BattleDto openBattle(@NonNull BattleCreationForm form);
 }
