@@ -1,5 +1,6 @@
 package org.astashonok.battleservice.rest;
 
+import org.astashonok.battleservice.constraints.annotations.JoiningBattleValidated;
 import org.astashonok.battleservice.dtos.BattleDto;
 import org.astashonok.battleservice.models.BattleCreationForm;
 import org.astashonok.battleservice.models.BattleState;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/battles")
+@Validated
 public class BattleController {
 
     @Autowired
@@ -30,7 +32,7 @@ public class BattleController {
     }
 
     @PostMapping("/{battleId}/join")
-    public BattleDto joinBattle(@PathVariable UUID battleId) {
+    public BattleDto joinBattle(@PathVariable @JoiningBattleValidated UUID battleId) {
         return battleService.join(battleId);
     }
 

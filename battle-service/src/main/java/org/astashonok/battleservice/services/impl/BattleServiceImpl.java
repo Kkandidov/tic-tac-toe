@@ -6,7 +6,6 @@ import org.astashonok.battleservice.components.calculators.BattleStateCalculator
 import org.astashonok.battleservice.dtos.BattleDto;
 import org.astashonok.battleservice.entities.Battle;
 import org.astashonok.battleservice.entities.Move;
-import org.astashonok.battleservice.exceptions.BattleException;
 import org.astashonok.battleservice.factories.BattleFactory;
 import org.astashonok.battleservice.mappers.dtos.BattleDtoMapper;
 import org.astashonok.battleservice.models.BattleCreationForm;
@@ -23,10 +22,9 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.UUID;
-
-import static org.astashonok.battleservice.constants.ErrorMessage.BATTLE_NOT_EXISTS;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Transactional
@@ -41,10 +39,8 @@ public class BattleServiceImpl implements BattleService {
 
     @Override
     public BattleState makeMove(@NonNull MoveForm moveForm) {
-        return Optional.of(moveForm.getBattleId())
-                .flatMap(battleRepository::findById)
-                .map(battle -> makeMove(battle, moveForm))
-                .orElseThrow(() -> new BattleException(String.format(BATTLE_NOT_EXISTS, moveForm.getBattleId())));
+        Battle battle = Objects.requireNonNull(battleRepository.findById(moveForm.getBattleId()).orElse(null));
+        return makeMove(battle, moveForm);
     }
 
     @Override
@@ -54,12 +50,10 @@ public class BattleServiceImpl implements BattleService {
 
     @Override
     public BattleDto join(@NonNull UUID battleId) {
-        return Optional.of(battleId)
-                .flatMap(battleRepository::findById)
-                .map(this::joinBattleAndGet)
-                .map(battleRepository::save)
-                .map(battleDtoMapper::toDto)
-                .orElseThrow(() -> new BattleException(String.format(BATTLE_NOT_EXISTS, battleId)));
+        Battle battle = Objects.requireNonNull(battleRepository.findById(battleId).orElse(null));
+        joinBattle(battle);
+        battleRepository.save(battle);
+        return battleDtoMapper.toDto(battle);
     }
 
     @Override
@@ -93,9 +87,8 @@ public class BattleServiceImpl implements BattleService {
         moveRepository.save(move);
     }
 
-    private Battle joinBattleAndGet(Battle battle) {
+    private void joinBattle(Battle battle) {
         battle.setOParticipantId(SecurityUtils.getCurrentUserId());
         battle.setStatus(BattleStatus.IN_PROCESS);
-        return battle;
     }
 }

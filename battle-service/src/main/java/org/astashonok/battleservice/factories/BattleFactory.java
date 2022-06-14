@@ -8,5 +8,5 @@ public interface BattleFactory {
 
     Battle create(@NonNull BattleCreationForm form);
 
-    Battle crateDefault();
+    Battle createDefault();
 }

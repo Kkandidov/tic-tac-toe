@@ -28,7 +28,7 @@ public class BattleFactoryImpl implements BattleFactory {
     }
 
     @Override
-    public Battle crateDefault() {
+    public Battle createDefault() {
         return createBattle(
                 SecurityUtils.getCurrentUserId(),
                 BattleConstants.GAME_BOARD_HEIGHT_DEFAULT,
