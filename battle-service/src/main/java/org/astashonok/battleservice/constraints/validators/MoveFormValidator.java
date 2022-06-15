@@ -28,7 +28,7 @@ public class MoveFormValidator implements ConstraintValidator<MoveFormValidated,
         UUID battleId = form.getBattleId();
         Battle battle = getBattle(battleId);
 
-        return addViolationIfNotTrue(context, new BattleNotExistsErrorMessageHolder(battleId),
+        return addViolationIfNotTrue(context, new BattleNotExistsError(battleId),
                 () -> battle != null) && isValid(form, context, battle);
     }
 
@@ -42,11 +42,11 @@ public class MoveFormValidator implements ConstraintValidator<MoveFormValidated,
         int xCoordinate = moveForm.getXCoordinate();
         int yCoordinate = moveForm.getYCoordinate();
 
-        return addViolationIfNotTrue(context, new CoordinatesOfGameBoardErrorMessageHolder(xCoordinate, yCoordinate),
+        return addViolationIfNotTrue(context, new CoordinatesOfGameBoardError(xCoordinate, yCoordinate),
                 () -> areCoordinatesInsideBoard(battle, xCoordinate, yCoordinate))
-                & addViolationIfNotTrue(context, new MoveNotForCurrentUserErrorMessageHolder(), () -> isCurrentUserQueue(battle))
-                & addViolationIfNotTrue(context, new BattleFinishedErrorMessageHolder(), () -> !BattleUtils.isFinishedStatus(battle))
-                & addViolationIfNotTrue(context, new BattleStatusOpenedErrorMessageHolder(), () -> !isOpenedStatus(battle));
+                & addViolationIfNotTrue(context, new MoveNotForCurrentUserError(), () -> isCurrentUserQueue(battle))
+                & addViolationIfNotTrue(context, new BattleFinishedError(), () -> !BattleUtils.isFinishedStatus(battle))
+                & addViolationIfNotTrue(context, new BattleStatusOpenedError(), () -> !isOpenedStatus(battle));
     }
 
     private boolean areCoordinatesInsideBoard(Battle battle, int xCoordinate, int yCoordinate) {

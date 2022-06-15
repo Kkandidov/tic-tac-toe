@@ -2,10 +2,10 @@ package org.astashonok.validatingstarter.models.errormessages.impl;
 
 import lombok.Getter;
 import lombok.NonNull;
-import org.astashonok.validatingstarter.models.errormessages.ErrorMessageHolder;
+import org.astashonok.validatingstarter.models.errormessages.ValidationError;
 
 @Getter
-public abstract class AbstractErrorMessageBasedOnPatternHolder implements ErrorMessageHolder {
+public abstract class AbstractErrorMessageBasedOnPatternHolder implements ValidationError {
 
     private final String errorMessage;
 

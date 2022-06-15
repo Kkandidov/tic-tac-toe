@@ -1,6 +1,6 @@
 package org.astashonok.validatingstarter.models.errormessages;
 
-public interface ErrorMessageHolder {
+public interface ValidationError {
 
     String getErrorMessage();
 }

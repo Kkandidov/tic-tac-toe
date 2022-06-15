@@ -5,9 +5,9 @@ import org.astashonok.validatingstarter.models.errormessages.impl.AbstractErrorM
 
 import java.util.UUID;
 
-public class BattleNotExistsErrorMessageHolder extends AbstractErrorMessageBasedOnPatternHolder {
+public class BattleNotExistsError extends AbstractErrorMessageBasedOnPatternHolder {
 
-    public BattleNotExistsErrorMessageHolder(UUID battleId) {
+    public BattleNotExistsError(UUID battleId) {
         super(ErrorMessagePattern.BATTLE_NOT_EXISTS, battleId);
     }
 }

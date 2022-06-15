@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.astashonok.battleservice.constraints.annotations.JoiningBattleValidated;
 import org.astashonok.battleservice.entities.Battle;
 import org.astashonok.battleservice.models.BattleStatus;
-import org.astashonok.battleservice.models.errormessages.BattleFinishedErrorMessageHolder;
-import org.astashonok.battleservice.models.errormessages.BattleInProcessErrorMessageHolder;
-import org.astashonok.battleservice.models.errormessages.BattleNotExistsErrorMessageHolder;
+import org.astashonok.battleservice.models.errormessages.BattleFinishedError;
+import org.astashonok.battleservice.models.errormessages.BattleInProcessError;
+import org.astashonok.battleservice.models.errormessages.BattleNotExistsError;
 import org.astashonok.battleservice.repositories.BattleRepository;
 import org.astashonok.battleservice.utils.BattleUtils;
 
@@ -25,13 +25,13 @@ public class JoiningBattleValidator implements ConstraintValidator<JoiningBattle
     public boolean isValid(UUID battleId, ConstraintValidatorContext context) {
         Battle battle = battleRepository.findById(battleId).orElse(null);
 
-        return addViolationIfNotTrue(context, new BattleNotExistsErrorMessageHolder(battleId),
+        return addViolationIfNotTrue(context, new BattleNotExistsError(battleId),
                 () -> battle != null) && isValid(context, battle);
     }
 
     private boolean isValid(ConstraintValidatorContext context, Battle battle) {
-        return addViolationIfNotTrue(context, new BattleInProcessErrorMessageHolder(), () -> !isBattleInProcess(battle))
-                & addViolationIfNotTrue(context, new BattleFinishedErrorMessageHolder(),
+        return addViolationIfNotTrue(context, new BattleInProcessError(), () -> !isBattleInProcess(battle))
+                & addViolationIfNotTrue(context, new BattleFinishedError(),
                 () -> !BattleUtils.isFinishedStatus(battle));
     }
 

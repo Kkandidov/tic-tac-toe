@@ -2,7 +2,7 @@ package org.astashonok.battleservice.constraints.validators;
 
 import org.astashonok.battleservice.constraints.annotations.BattleCreationFormValidated;
 import org.astashonok.battleservice.models.BattleCreationForm;
-import org.astashonok.battleservice.models.errormessages.IncorrectWinningNumberRowErrorMessageHolder;
+import org.astashonok.battleservice.models.errormessages.IncorrectWinningNumberRowError;
 import org.astashonok.validatingstarter.utils.ConstraintValidationUtils;
 
 import javax.validation.ConstraintValidator;
@@ -18,7 +18,7 @@ public class BattleCreationFormValidator implements ConstraintValidator<BattleCr
 
         return ConstraintValidationUtils.addViolationIfNotTrue(
                 context,
-                new IncorrectWinningNumberRowErrorMessageHolder(winningNumberInRow, boardWidth, boardHeight),
+                new IncorrectWinningNumberRowError(winningNumberInRow, boardWidth, boardHeight),
                 () -> winningNumberInRow <= boardHeight && winningNumberInRow <= boardWidth
         );
     }
