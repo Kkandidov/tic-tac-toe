@@ -7,11 +7,11 @@ import org.apache.commons.lang3.math.NumberUtils;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class IntegerUtils {
 
-    public static boolean notNegative(int number) {
-        return number >= 0;
+    public static boolean isNegative(int number) {
+        return number < 0;
     }
 
-    public static boolean moreOrEquals(int comparableNumber, int comparingNumber) {
-        return notNegative(NumberUtils.compare(comparableNumber, comparingNumber));
+    public static boolean lessOrEquals(int comparableNumber, int comparingNumber) {
+        return NumberUtils.compare(comparableNumber, comparingNumber) <= 0;
     }
 }
