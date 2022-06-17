@@ -1,1 +1,9 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        consumeBattleFinishedEvent-in-0:
+          destination: battle-events
+      function:
+        definition: consumeBattleFinishedEvent;
 
