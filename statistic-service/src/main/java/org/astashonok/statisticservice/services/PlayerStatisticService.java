@@ -11,4 +11,6 @@ public interface PlayerStatisticService {
     PlayerBattlesStatistic getBattlesStatistic(UUID playerId);
 
     List<PlayerStatistic> getPlayersStatistic();
+
+    List<PlayerStatistic> getTopPlayersStatistic(int topNumber);
 }
