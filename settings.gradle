@@ -4,4 +4,7 @@ include 'statistic-service'
 include 'user-service'
 include 'common'
 include 'validating-starter'
+include 'resource-service'
+include 'client-service'
+include 'shared'
 
