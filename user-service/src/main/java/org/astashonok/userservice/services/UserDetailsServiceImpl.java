@@ -1,7 +1,8 @@
-package org.astashonok.userservice.security;
+package org.astashonok.userservice.services;
 
 import lombok.RequiredArgsConstructor;
 import org.astashonok.userservice.repository.UserRepository;
+import org.astashonok.userservice.models.SecurityUser;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

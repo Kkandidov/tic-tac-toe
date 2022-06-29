@@ -1,5 +1,6 @@
-package org.astashonok.userservice.security;
+package org.astashonok.userservice.providers.impl;
 
+import org.astashonok.userservice.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationProvider;

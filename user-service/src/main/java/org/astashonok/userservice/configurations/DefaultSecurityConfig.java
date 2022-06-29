@@ -1,26 +1,21 @@
 package org.astashonok.userservice.configurations;
 
-import org.astashonok.userservice.security.CustomAuthenticationProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class DefaultSecurityConfig {
 
-    @Autowired
-    private CustomAuthenticationProvider customAuthenticationProvider;
+    private final UserDetailsService userDetailsService;
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -31,19 +26,11 @@ public class DefaultSecurityConfig {
         return http.build();
     }
 
-//    @Bean
-//    UserDetailsService users() {
-//        UserDetails user = User.withDefaultPasswordEncoder()
-//                .username("admin")
-//                .password("password")
-//                .roles("USER")
-//                .build();
-//        return new InMemoryUserDetailsManager(user);
-//    }
-
     @Autowired
-    public void bindAuthenticationProvider(AuthenticationManagerBuilder authenticationManagerBuilder) {
+    public void bindAuthenticationProvider(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
-                .authenticationProvider(customAuthenticationProvider);
+                .userDetailsService(userDetailsService);
+//                .and()
+//                .eraseCredentials(true);
     }
 }

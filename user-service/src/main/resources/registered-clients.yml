@@ -1,21 +1,14 @@
 registered:
-  clientCredentialsClients:
-    - clientId: client-credentials-client-id
-      name: client-credentials-client-name
-      #      secret: secret1
-      secret: $2a$12$5AnOSIEriF8ENwfn2KiP0ubGqC73ju5/Sl5mmcRLaNLSQVfzUvHrq
-      scope: message.read,message.write
-
-  authorizationCodeClients:
-    - clientId: authorization-code-client-id
-      name: authorization-code-client-name
-      #      secret: secret2
-      secret: $2a$12$5R7MjIWmCv84oHgROPkPq.qjCZ0jKyQmzLt/mYx4BDWkarSYiK/xu
-      redirectUri: http://127.0.0.1:8080/springauthserverclient/authorized
-      scope: message.read,message.write
-
-  passwordClients:
-    - clientId: password-client-id
-      name: password-client-name
-      #      secret: secret3
-      secret: $2a$12$rhBi4u7nLXonfGv7enR.FejC3JGrIaMPZA833vzJMog.i4wOEerQ.
+  clients:
+    - clientId: articles-client
+      #      secret: secret
+      clientSecret: $2a$12$d8C8/fu0ueZ0fUE4D36KjO5iQSFgF2kH7IuG2yy8Q09Z0ZVCIw.T.
+      clientName: articles-client-name
+      authenticationMethods: client_secret_basic,client_secret_post
+      grantTypes: authorization_code,refresh_token,client_credentials,password
+      redirectUris: http://127.0.0.1:8080/login/oauth2/code/articles-client-oidc,http://127.0.0.1:8080/authorized
+      scopes: articles.read
+      accessTokenDuration: 1
+      accessTimeUnitType: day
+      refreshTokenDuration: 4
+      refreshTimeUnitType: day

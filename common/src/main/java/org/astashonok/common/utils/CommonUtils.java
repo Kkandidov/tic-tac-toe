@@ -5,10 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -20,6 +17,16 @@ public class CommonUtils {
                 .filter(Objects::nonNull)
                 .map(objectMapper)
                 .collect(Collectors.toList());
+    }
+
+    public static <T, R> Set<R> mapSetOrEmpty(Set<T> mappingSet, @NonNull Function<T, R> objectMapper) {
+        return CollectionUtils.isEmpty(mappingSet)
+                ? Collections.emptySet()
+                : mappingSet.stream()
+                .filter(Objects::nonNull)
+                .map(objectMapper)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
     }
 
     public static <T> List<T> joinNotEmpty(@NonNull List<List<T>> lists) {

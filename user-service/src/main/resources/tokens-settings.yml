@@ -1,9 +1,0 @@
-tokens:
-  settings:
-    access:
-      duration: 1
-      timeUnitType: day
-
-    refresh:
-      duration: 4
-      timeUnitType: day

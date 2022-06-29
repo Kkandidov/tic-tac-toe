@@ -7,4 +7,5 @@ include 'validating-starter'
 include 'resource-service'
 include 'client-service'
 include 'shared'
+include 'auth-service'
 
