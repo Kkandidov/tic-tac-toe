@@ -12,3 +12,14 @@ registered:
       accessTimeUnitType: day
       refreshTokenDuration: 4
       refreshTimeUnitType: day
+    - clientId: system-client
+      #      secret: secret
+      clientSecret: $2a$12$gnJbiJMOu5BX/0tACxiHDe5.hgrGcQBEMRLpmwCydjOk6yJdgT5vG
+      clientName: system-client-name
+      authenticationMethods: client_secret_basic
+      grantTypes: client_credentials
+      scopes: articles.read
+      accessTokenDuration: 1
+      accessTimeUnitType: day
+      refreshTokenDuration: 4
+      refreshTimeUnitType: day

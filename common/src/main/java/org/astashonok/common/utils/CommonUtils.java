@@ -7,6 +7,7 @@ import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -42,9 +43,21 @@ public class CommonUtils {
         }
     }
 
+    public static <T, R> R getOrSupplyDefault(T object, @NonNull Function<T, R> objectGetter,
+                                              Supplier<R> defaultValueSupplier) {
+
+        return getOrDefault(object, objectGetter, defaultValueSupplier.get());
+    }
+
     public static <T, R> R getOrDefault(T object, @NonNull Function<T, R> objectGetter, R defaultValue) {
         return Optional.ofNullable(object)
                 .map(objectGetter)
                 .orElse(defaultValue);
+    }
+
+    public static <T, R> R applyOrNull(T object, @NonNull Function<T, R> function) {
+        return object == null
+                ? null
+                : function.apply(object);
     }
 }
