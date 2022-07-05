@@ -34,6 +34,7 @@ public class WebClientConfig {
                         .authorizationCode()
                         .refreshToken()
                         .build();
+
         DefaultOAuth2AuthorizedClientManager authorizedClientManager = new DefaultOAuth2AuthorizedClientManager(
                 clientRegistrationRepository, authorizedClientRepository);
         authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
