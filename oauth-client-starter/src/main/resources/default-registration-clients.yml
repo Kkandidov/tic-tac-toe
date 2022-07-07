@@ -16,12 +16,9 @@ registration:
       redirectUri: "{baseUrl}/authorized"
       scopes: articles.read
       clientName: ${server.application.name}-client-authorization-code
-    - registrationId: system-client
+    - registrationId: ${server.application.name}-system-client
       provider: spring
-      clientId: system-client
+      clientId: ${server.application.name}-system-client
       clientSecret: secret
       grantType: client_credentials
-      clientName: system-client
-  providers:
-    spring:
-      issuer-uri: http://localhost:9000
+      clientName: ${server.application.name}-system-client

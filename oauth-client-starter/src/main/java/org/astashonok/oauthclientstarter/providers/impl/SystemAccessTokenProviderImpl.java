@@ -3,6 +3,7 @@ package org.astashonok.oauthclientstarter.providers.impl;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.astashonok.oauthclientstarter.providers.SystemAccessTokenProvider;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
@@ -22,6 +23,9 @@ public class SystemAccessTokenProviderImpl implements SystemAccessTokenProvider 
     private final OAuth2AuthorizedClientManager manager;
     private final ClientRegistrationRepository clientRegistrationRepository;
 
+    @Value("${server.application.name}")
+    private String appName;
+
     @Getter
     private OAuth2AccessToken systemAccessToken;
 
@@ -35,7 +39,7 @@ public class SystemAccessTokenProviderImpl implements SystemAccessTokenProvider 
     }
 
     private OAuth2AuthorizeRequest getSystemAuthorizeRequest() {
-        return Optional.ofNullable("system-client")
+        return Optional.of(appName + "-system-client")
                 .map(clientRegistrationRepository::findByRegistrationId)
                 .map(this::buildSystemAuthorizeRequest)
                 .orElseThrow(() -> new IllegalStateException("system-client not found"));

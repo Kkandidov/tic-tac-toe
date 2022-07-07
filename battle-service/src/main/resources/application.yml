@@ -1,6 +1,9 @@
 server:
   port: 9998
 
+  application:
+    name: battle
+
 spring:
   datasource:
     url: jdbc:postgresql://0.0.0.0:5433/game

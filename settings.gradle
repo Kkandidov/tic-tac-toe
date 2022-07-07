@@ -9,4 +9,5 @@ include 'client-service'
 include 'shared'
 include 'auth-service'
 include 'oauth-client-starter'
+include 'oauth-resource-starter'
 

@@ -1,24 +1,47 @@
 registered:
   clients:
-    - clientId: articles-client
+    - clientId: battle-client
       #      secret: secret
-      clientSecret: $2a$12$d8C8/fu0ueZ0fUE4D36KjO5iQSFgF2kH7IuG2yy8Q09Z0ZVCIw.T.
-      clientName: articles-client-name
+      clientSecret: $2a$12$D2FVLtblg4lJ1ukhqYMZWepqg.QLIBw5i2QX5ZVb2RsdmjvoqvQMy
+      clientName: battle-client-name
       authenticationMethods: client_secret_basic,client_secret_post
       grantTypes: authorization_code,refresh_token,client_credentials,password
-      redirectUris: http://127.0.0.1:8080/login/oauth2/code/articles-client-oidc,http://127.0.0.1:8080/authorized
-      scopes: articles.read
+      redirectUris: http://127.0.0.1:9998/login/oauth2/code/battle-client-oidc,http://127.0.0.1:9998/authorized
+      scopes: statistic.read,statistic.write
       accessTokenDuration: 1
       accessTimeUnitType: day
       refreshTokenDuration: 4
       refreshTimeUnitType: day
-    - clientId: system-client
+    - clientId: battle-system-client
       #      secret: secret
-      clientSecret: $2a$12$gnJbiJMOu5BX/0tACxiHDe5.hgrGcQBEMRLpmwCydjOk6yJdgT5vG
-      clientName: system-client-name
+      clientSecret: $2a$12$nhyylERpyEgojPj8ckM9b.NHo4u7NLLr01E1GJdslfSI6AX26USIO
+      clientName: battle-system-client-name
       authenticationMethods: client_secret_basic
       grantTypes: client_credentials
-      scopes: articles.read
+      scopes: statistic.read,statistic.write
+      accessTokenDuration: 1
+      accessTimeUnitType: day
+      refreshTokenDuration: 4
+      refreshTimeUnitType: day
+    - clientId: statistic-client
+      #      secret: secret
+      clientSecret: $2a$12$sAHXYj/W94IEZ44UORMN6uXIsndqf13uyUdRS7B6Vpvh40/8rbn1G
+      clientName: statistic-client-name
+      authenticationMethods: client_secret_basic,client_secret_post
+      grantTypes: authorization_code,refresh_token,client_credentials,password
+      redirectUris: http://127.0.0.1:9999/login/oauth2/code/statistic-client-oidc,http://127.0.0.1:9999/authorized
+      scopes: battle.read,battle.write
+      accessTokenDuration: 1
+      accessTimeUnitType: day
+      refreshTokenDuration: 4
+      refreshTimeUnitType: day
+    - clientId: statistic-system-client
+      #      secret: secret
+      clientSecret: $2a$12$KOW1hSOFfSSl4PFPjZySuekxPmqSi8mR8B1DAikdyANHY2CYPRKj.
+      clientName: statistic-system-client-name
+      authenticationMethods: client_secret_basic
+      grantTypes: client_credentials
+      scopes: battle.read,battle.write
       accessTokenDuration: 1
       accessTimeUnitType: day
       refreshTokenDuration: 4

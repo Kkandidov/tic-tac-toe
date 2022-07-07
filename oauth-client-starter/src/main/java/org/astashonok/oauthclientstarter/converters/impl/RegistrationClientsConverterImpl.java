@@ -1,11 +1,13 @@
 package org.astashonok.oauthclientstarter.converters.impl;
 
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.astashonok.common.utils.CommonUtils;
 import org.astashonok.oauthclientstarter.constants.AuthenticationMethod;
 import org.astashonok.oauthclientstarter.converters.RegistrationClientsConverter;
 import org.astashonok.oauthclientstarter.model.Client;
 import org.astashonok.oauthclientstarter.model.OAuth2Provider;
+import org.astashonok.oauthclientstarter.properties.OAuth2Providers;
 import org.astashonok.oauthclientstarter.properties.RegistrationClients;
 import org.javatuples.Pair;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
@@ -19,15 +21,18 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class RegistrationClientsConverterImpl implements RegistrationClientsConverter {
+
+    private final OAuth2Providers oAuth2Providers;
 
     @Override
     public List<ClientRegistration> convert(@NonNull RegistrationClients registrationClients) {
         List<Client> clients = CommonUtils.getOrSupplyDefault(registrationClients,
                 RegistrationClients::getClients, Collections::emptyList);
 
-        Map<String, OAuth2Provider> idToProvider = CommonUtils.getOrSupplyDefault(registrationClients,
-                RegistrationClients::getProviders, Collections::emptyMap);
+        Map<String, OAuth2Provider> idToProvider = CommonUtils.getOrSupplyDefault(oAuth2Providers,
+                OAuth2Providers::getProviders, Collections::emptyMap);
 
         return clients.stream()
                 .map(client -> new Pair<>(client, getProvider(client, idToProvider)))

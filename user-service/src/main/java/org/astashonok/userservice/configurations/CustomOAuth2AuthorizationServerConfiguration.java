@@ -26,8 +26,6 @@ public class CustomOAuth2AuthorizationServerConfiguration {
                         new CustomOAuth2PasswordAuthenticationConverter()))
         )));
 
-//        authorizationServerConfigurer.authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI));
-
         RequestMatcher endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
 
         http
@@ -35,7 +33,5 @@ public class CustomOAuth2AuthorizationServerConfiguration {
                 .authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
                 .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
                 .apply(authorizationServerConfigurer);
-//                .and()
-//                .apply(new FederatedIdentityConfigurer());
     }
 }
