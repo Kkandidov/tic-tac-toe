@@ -1,8 +1,10 @@
 dependencies {
+    implementation project(":shared")
+
     api 'org.springframework.boot:spring-boot-starter-amqp'
     api 'org.springframework.cloud:spring-cloud-stream'
     api 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
-    implementation project(":shared")
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.amqp:spring-rabbit-test'
 }

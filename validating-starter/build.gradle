@@ -1,4 +1,6 @@
 dependencies {
+    implementation project(":shared")
+
     api 'jakarta.validation:jakarta.validation-api'
     api 'org.hibernate.validator:hibernate-validator'
 }

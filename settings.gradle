@@ -1,15 +1,17 @@
 rootProject.name = 'tic-tac-toe'
+
+//microservices
 include 'battle-service'
 include 'statistic-service'
 include 'user-service'
+
+//modules
 include 'common'
-include 'validating-starter'
-include 'events-management-starter'
 include 'shared'
-include 'resource-service'
-include 'client-service'
-include 'shared'
-include 'auth-service'
+
+//starters
 include 'oauth-client-starter'
 include 'oauth-resource-starter'
+include 'validating-starter'
+include 'events-management-starter'
 

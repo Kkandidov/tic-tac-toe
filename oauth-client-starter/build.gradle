@@ -1,8 +1,8 @@
 dependencies {
+    implementation project(":shared")
+
     api 'org.springframework.boot:spring-boot-starter-oauth2-client'
     api 'org.springframework:spring-webflux'
     api 'io.projectreactor.netty:reactor-netty'
     api 'org.springframework.cloud:spring-cloud-starter-openfeign'
-    implementation project(":shared")
-    implementation project(":common")
 }

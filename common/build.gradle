@@ -1,0 +1,5 @@
+dependencies {
+    api libs.javatuples
+    api libs.commons_lang
+    api libs.commons_collections
+}

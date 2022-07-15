@@ -1,8 +1,9 @@
 dependencies {
-    implementation 'org.postgresql:postgresql'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation project(":events-management-starter")
-    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation project(":oauth-client-starter")
     implementation project(":oauth-resource-starter")
+
+    implementation 'org.postgresql:postgresql'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 }
