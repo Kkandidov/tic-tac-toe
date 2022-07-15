@@ -1,0 +1,4 @@
+event:
+  bindings:
+    battle:
+      battle-event-supplier-out-0

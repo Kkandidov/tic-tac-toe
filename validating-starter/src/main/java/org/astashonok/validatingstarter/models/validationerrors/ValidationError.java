@@ -1,4 +1,4 @@
-package org.astashonok.validatingstarter.models.errormessages;
+package org.astashonok.validatingstarter.models.validationerrors;
 
 public interface ValidationError {
 

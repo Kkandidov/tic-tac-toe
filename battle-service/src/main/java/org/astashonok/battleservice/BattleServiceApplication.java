@@ -1,5 +1,6 @@
 package org.astashonok.battleservice;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,5 +10,4 @@ public class BattleServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(BattleServiceApplication.class, args);
     }
-
 }

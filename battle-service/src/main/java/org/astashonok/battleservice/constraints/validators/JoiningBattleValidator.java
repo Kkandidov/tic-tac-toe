@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.astashonok.battleservice.constraints.annotations.JoiningBattleValidated;
 import org.astashonok.battleservice.entities.Battle;
 import org.astashonok.battleservice.models.BattleStatus;
-import org.astashonok.battleservice.models.errormessages.BattleFinishedError;
-import org.astashonok.battleservice.models.errormessages.BattleInProcessError;
-import org.astashonok.battleservice.models.errormessages.BattleNotExistsError;
+import org.astashonok.battleservice.models.errors.BattleFinishedError;
+import org.astashonok.battleservice.models.errors.BattleInProcessError;
+import org.astashonok.battleservice.models.errors.BattleNotExistsError;
 import org.astashonok.battleservice.repositories.BattleRepository;
 import org.astashonok.battleservice.utils.BattleUtils;
 

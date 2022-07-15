@@ -1,12 +1,12 @@
 package org.astashonok.battleservice.rest;
 
+import lombok.RequiredArgsConstructor;
 import org.astashonok.battleservice.constraints.annotations.JoiningBattleValidated;
 import org.astashonok.battleservice.dtos.BattleDto;
 import org.astashonok.battleservice.models.BattleCreationForm;
 import org.astashonok.battleservice.models.BattleState;
 import org.astashonok.battleservice.models.MoveForm;
 import org.astashonok.battleservice.services.BattleService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +16,10 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/battles")
 @Validated
+@RequiredArgsConstructor
 public class BattleController {
 
-    @Autowired
-    private BattleService battleService;
+    private final BattleService battleService;
 
     @PostMapping("/make-move")
     public BattleState makeMove(@RequestBody @Validated MoveForm moveForm) {

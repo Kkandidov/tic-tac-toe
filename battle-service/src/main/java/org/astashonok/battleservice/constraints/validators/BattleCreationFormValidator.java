@@ -2,7 +2,7 @@ package org.astashonok.battleservice.constraints.validators;
 
 import org.astashonok.battleservice.constraints.annotations.BattleCreationFormValidated;
 import org.astashonok.battleservice.models.BattleCreationForm;
-import org.astashonok.battleservice.models.errormessages.IncorrectWinningNumberRowError;
+import org.astashonok.battleservice.models.errors.IncorrectWinningNumberRowError;
 import org.astashonok.validatingstarter.utils.ConstraintValidationUtils;
 
 import javax.validation.ConstraintValidator;

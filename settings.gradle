@@ -4,5 +4,6 @@ include 'statistic-service'
 include 'user-service'
 include 'common'
 include 'validating-starter'
-include 'amqp-starter'
+include 'events-management-starter'
+include 'shared'
 
