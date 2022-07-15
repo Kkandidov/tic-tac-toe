@@ -1,5 +1,9 @@
 server:
   port: 9997
+
+  application:
+    name: statistic
+
 spring:
   cloud:
     stream:

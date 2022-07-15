@@ -1,0 +1,16 @@
+server:
+  port: 9000
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/security
+    driver-class-name: org.postgresql.Driver
+    username: admin
+    password: admin
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.security.oauth2: INFO

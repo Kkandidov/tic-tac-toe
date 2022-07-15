@@ -1,0 +1,24 @@
+registration:
+  clients:
+    - registrationId: ${server.application.name}-client-oidc
+      provider: spring
+      clientId: ${server.application.name}-client
+      clientSecret: secret
+      grantType: authorization_code
+      redirectUri: "{baseUrl}/login/oauth2/code/{registrationId}"
+      scopes: openid, articles.read
+      clientName: ${server.application.name}-client-oidc
+    - registrationId: ${server.application.name}-client-authorization-code
+      provider: spring
+      clientId: ${server.application.name}-client
+      clientSecret: secret
+      grantType: authorization_code
+      redirectUri: "{baseUrl}/authorized"
+      scopes: articles.read
+      clientName: ${server.application.name}-client-authorization-code
+    - registrationId: ${server.application.name}-system-client
+      provider: spring
+      clientId: ${server.application.name}-system-client
+      clientSecret: secret
+      grantType: client_credentials
+      clientName: ${server.application.name}-system-client
