@@ -18,3 +18,11 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+  cloud:
+    stream:
+      bindings:
+        battle-event-supplier-out-0:
+          destination: battle-events

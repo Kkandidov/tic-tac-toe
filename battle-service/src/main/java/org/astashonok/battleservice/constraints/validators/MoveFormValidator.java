@@ -5,7 +5,7 @@ import org.astashonok.battleservice.constraints.annotations.MoveFormValidated;
 import org.astashonok.battleservice.entities.Battle;
 import org.astashonok.battleservice.models.BattleStatus;
 import org.astashonok.battleservice.models.MoveForm;
-import org.astashonok.battleservice.models.errormessages.*;
+import org.astashonok.battleservice.models.errors.*;
 import org.astashonok.battleservice.repositories.BattleRepository;
 import org.astashonok.battleservice.utils.BattleUtils;
 import org.astashonok.battleservice.utils.SecurityUtils;

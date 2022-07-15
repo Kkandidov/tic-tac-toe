@@ -1,6 +1,7 @@
 dependencies {
     implementation project(":common")
     implementation project(":validating-starter")
+    implementation project(":events-management-starter")
     implementation 'org.postgresql:postgresql'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'com.vladmihalcea:hibernate-types-52:2.16.2'

@@ -3,6 +3,7 @@ package org.astashonok.battleservice.services.impl;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.astashonok.battleservice.components.calculators.BattleStateCalculator;
+import org.astashonok.battleservice.constants.BattleServiceEventType;
 import org.astashonok.battleservice.dtos.BattleDto;
 import org.astashonok.battleservice.entities.Battle;
 import org.astashonok.battleservice.entities.Move;
@@ -17,6 +18,8 @@ import org.astashonok.battleservice.repositories.MoveRepository;
 import org.astashonok.battleservice.services.BattleService;
 import org.astashonok.battleservice.utils.SecurityUtils;
 import org.astashonok.common.utils.CommonUtils;
+import org.astashonok.eventsmanagementstarter.factories.DomainEventFactory;
+import org.astashonok.eventsmanagementstarter.publishers.DomainEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -35,6 +38,8 @@ public class BattleServiceImpl implements BattleService {
     private final BattleFactory battleFactory;
     private final BattleStateCalculator battleStateCalculator;
     private final BattleDtoMapper battleDtoMapper;
+    private final DomainEventPublisher domainEventPublisher;
+    private final DomainEventFactory domainEventFactory;
 
     @Override
     public BattleState makeMove(@NonNull MoveForm moveForm) {
@@ -68,6 +73,12 @@ public class BattleServiceImpl implements BattleService {
         BattleState battleState = battleStateCalculator.calculateAndGet(battle);
         battle.setWinnerId(battleState.getWinnerId());
         battle.setStatus(battleState.getStatus());
+
+        if (BattleStatus.FINISHED.equals(battleState.getStatus())) {
+            domainEventPublisher.publish(
+                    domainEventFactory.newDomainEvent(battle.getId(), BattleServiceEventType.BATTLE_FINISHED)
+            );
+        }
 
         battleRepository.save(battle);
         saveUserMove(moveForm);
